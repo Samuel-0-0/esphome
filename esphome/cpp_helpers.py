@@ -1,5 +1,5 @@
 from esphome.const import CONF_INVERTED, CONF_MODE, CONF_NUMBER, CONF_PCF8574, \
-    CONF_SETUP_PRIORITY, CONF_MCP23017
+    CONF_CAT9554, CONF_SETUP_PRIORITY, CONF_MCP23017
 from esphome.core import CORE, EsphomeError
 from esphome.cpp_generator import IntLiteral, RawExpression
 from esphome.cpp_types import GPIOInputPin, GPIOOutputPin
@@ -22,6 +22,21 @@ def generic_gpio_pin_expression_(conf, mock_obj, default_mode):
             return
         if default_mode == u'OUTPUT':
             yield hub.make_output_pin(number, inverted)
+            return
+
+        raise EsphomeError(u"Unknown default mode {}".format(default_mode))
+    if CONF_CAT9554 in conf:
+        from esphome.components import cat9554
+
+        for hub in CORE.get_variable(conf[CONF_CAT9554]):
+            yield None
+
+        if default_mode == u'INPUT':
+            mode = cat9554.CAT9554_GPIO_MODES[conf.get(CONF_MODE, u'INPUT')]
+            yield hub.make_input_pin(number, mode)
+            return
+        if default_mode == u'OUTPUT':
+            yield hub.make_output_pin(number)
             return
 
         raise EsphomeError(u"Unknown default mode {}".format(default_mode))
