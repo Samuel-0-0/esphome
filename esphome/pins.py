@@ -411,7 +411,7 @@ CAT9554_OUTPUT_PIN_SCHEMA = cv.Schema({
 })
 
 CAT9554_INPUT_PIN_SCHEMA = CAT9554_OUTPUT_PIN_SCHEMA.extend({
-    vol.Optional(CONF_MODE): cv.one_of("INPUT", upper=True),
+    vol.Optional(CONF_MODE): cv.one_of("INPUT", "INPUT_PULLUP", upper=True),
 })
 
 MCP23017_OUTPUT_PIN_SCHEMA = cv.Schema({
