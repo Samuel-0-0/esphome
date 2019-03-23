@@ -33,10 +33,10 @@ def generic_gpio_pin_expression_(conf, mock_obj, default_mode):
 
         if default_mode == u'INPUT':
             mode = cat9554.CAT9554_GPIO_MODES[conf.get(CONF_MODE, u'INPUT')]
-            yield hub.make_input_pin(number, mode)
+            yield hub.make_input_pin(number, mode, inverted)
             return
         if default_mode == u'OUTPUT':
-            yield hub.make_output_pin(number)
+            yield hub.make_output_pin(number, inverted)
             return
 
         raise EsphomeError(u"Unknown default mode {}".format(default_mode))
